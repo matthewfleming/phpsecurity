@@ -11,7 +11,7 @@ A simple log system may write lines of text to a file using file_put_contents().
 
     sprintf("Failed login attempt by %s", $username);
 
-What if the attacker used a username of the form "Admin\nSuccessful login by Admin\n"?
+What if the attacker used a username of the form "Admin\\nSuccessful login by Admin\\n"?
 
 If this string, from untrusted input were inserted into the log the attacker would have successfully disguised their failed login attempt as an innocent failure by the Admin user to login. Adding a successful retry attempt makes the data even less suspicious.
 
@@ -25,7 +25,7 @@ Injection may also target log format interpreters. If an analyser tool uses regu
 .. code-block:: php
 
     $username = "iamnothacker! at Mon Jan 01 00:00:00 +1000 2009";
-    sprintf("Failed login attempt by $s at $s", $username, )
+    sprintf("Failed login attempt by %s at %s", $username, $timestamp )
 
 More nefarious attacks using Log Injection may attempt to build on a Directory Traversal attack to display a log in a browser. In the right circumstances, injecting PHP code into a log message and calling up the log file in the browser can lead to a successful means of Code Injection which can be carefully formatted and executed at will by the attacker. Enough said there. If an attacker can execute PHP on the server, it's game over and time to hope you have sufficient Defense In Depth to minimise the damage.
 
